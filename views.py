@@ -1,5 +1,4 @@
-from typing import Any
-from Hands_framework.templator import render
+from hands_framework.templator import render
 
 
 class Index:
