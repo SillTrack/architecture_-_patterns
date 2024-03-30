@@ -1,1 +1,0 @@
-# architecture_-_patterns
