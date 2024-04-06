@@ -2,8 +2,17 @@
     <h1>Наши продукты</h1>
     <p>На все комплектующие предоставляется гарантия в течение 3 лет.</p>
     <p>Доступно на дату: {{date}} </p>
+
+
+    
     <table>
-        <tr class="head">
+        {% for item in objects_list %}
+        <li>
+            {{item.name}} <span>Количество курсов: {{item.product_count()}}</span>
+			<a href="/products-list/?id={{item.id}}">Показать курсы</a>
+        </li>
+        {% endfor %}
+        <!-- <tr class="head">
             <th></th>
             <th>Москва</th>
             <th>Санкт-Петербург</th>
@@ -32,9 +41,13 @@
             <td>Intel <br />многа денег</td>
             <td>Ryzen <br />многа денег</td>
             <td>Серверные решения <br />многа денег</td>
-        </tr>
+        </tr> -->
     </table>
-    <form action="" method="post">
+
+    <div>
+		<a href="/create-category/" style="text-decoration: aqua;">Создать новую категорию</a>
+	</div>
+    <!-- <form action="" method="post">
         <fieldset>
             <legend>Зарегистрируйтесь</legend>
             <p><label class="title" for="name">Ваше имя:</label>
@@ -52,5 +65,5 @@
             <label><input type="radio" name="member" value="no" /> Нет</label></p>
         </fieldset>
      <div class="submit"><input type="submit" value="Регистрация" /></div>
-    </form>
+    </form> -->
 </body>

@@ -8,20 +8,25 @@ class User:
     pass
 
 
-# преподаватель
-class Teacher(User):
+# Покупатенль
+class Customer(User):
     pass
 
 
-# студент
-class Student(User):
+# Работник
+class Worker(User):
     pass
+
+
+
+
+
 
 
 class UserFactory:
     types = {
-        'student': Student,
-        'teacher': Teacher
+        'customer': Customer,
+        'worker': Worker
     }
 
     # порождающий паттерн Фабричный метод
@@ -30,36 +35,50 @@ class UserFactory:
         return cls.types[type_]()
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # порождающий паттерн Прототип
-class CoursePrototype:
+class productPrototype:
     # прототип курсов обучения
 
     def clone(self):
         return deepcopy(self)
 
 
-class Course(CoursePrototype):
+class product(productPrototype):
 
     def __init__(self, name, category):
         self.name = name
         self.category = category
-        self.category.courses.append(self)
+        self.category.products.append(self)
 
 
 # интерактивный курс
-class InteractiveCourse(Course):
+class SpecialProduct(product):
     pass
 
 
-# курс в записи
-class RecordCourse(Course):
-    pass
 
 
-class CourseFactory:
+class productFactory:
     types = {
-        'interactive': InteractiveCourse,
-        'record': RecordCourse
+        'usual': product,
+        'special': SpecialProduct
     }
 
     # порождающий паттерн Фабричный метод
@@ -77,21 +96,21 @@ class Category:
         Category.auto_id += 1
         self.name = name
         self.category = category
-        self.courses = []
+        self.products = []
 
-    def course_count(self):
-        result = len(self.courses)
+    def product_count(self):
+        result = len(self.products)
         if self.category:
-            result += self.category.course_count()
+            result += self.category.product_count()
         return result
 
 
 # основной интерфейс проекта
 class Engine:
     def __init__(self):
-        self.teachers = []
-        self.students = []
-        self.courses = []
+        self.customers = []
+        self.workers = []
+        self.products = []
         self.categories = []
 
     @staticmethod
@@ -110,11 +129,11 @@ class Engine:
         raise Exception(f'Нет категории с id = {id}')
 
     @staticmethod
-    def create_course(type_, name, category):
-        return CourseFactory.create(type_, name, category)
+    def create_product(type_, name, category):
+        return productFactory.create(type_, name, category)
 
-    def get_course(self, name):
-        for item in self.courses:
+    def get_product(self, name):
+        for item in self.products:
             if item.name == name:
                 return item
         return None

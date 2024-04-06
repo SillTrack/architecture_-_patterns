@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}
+Список категорий
+{% endblock %}
+{% block style %}
+    {% include "nav_style.html" %}
+{% endblock %}
+{% block menu %}
+    {% include "navigation.html" %}
+{% endblock %}
+{% block body %}
+    <a href="/">назад</a>
+
+    <h1>Список категорий</h1>
+    <ul>
+
+        {% for item in objects_list %}
+        <li>
+            {{item.name}} <span>Количество товаров: {{item.product_count()}}</span>
+        </li>
+        {% endfor %}
+    </ul>
+
+	<div>
+		<li><a href="/product-list/">Список товаров</a></li>
+		<li><a href="/create-product/">Создать товар</a></li>
+	</div>
+{% endblock %}
