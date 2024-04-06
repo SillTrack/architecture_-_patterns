@@ -61,7 +61,7 @@ class CreateProduct:
             if self.category_id != -1:
                 category = site.find_category_by_id(int(self.category_id))
 
-                product = site.create_product('record', name, category)
+                product = site.create_product('usual', name, category)
                 site.products.append(product)
 
             return '200 OK', render('product_list.html',

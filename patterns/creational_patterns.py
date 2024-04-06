@@ -84,6 +84,8 @@ class productFactory:
     # порождающий паттерн Фабричный метод
     @classmethod
     def create(cls, type_, name, category):
+        print("CLS IS ",cls)
+        print("RETURN IS",cls.types[type_](name, category))
         return cls.types[type_](name, category)
 
 

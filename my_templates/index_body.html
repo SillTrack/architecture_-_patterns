@@ -9,7 +9,7 @@
         {% for item in objects_list %}
         <li>
             {{item.name}} <span>Количество курсов: {{item.product_count()}}</span>
-			<a href="/products-list/?id={{item.id}}">Показать курсы</a>
+			<a href="/product-list/?id={{item.id}}">Показать курсы</a>
         </li>
         {% endfor %}
         <!-- <tr class="head">
