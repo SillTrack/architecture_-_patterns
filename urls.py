@@ -18,4 +18,8 @@ routes = {
     '/about/': About(),
     '/contacts/': Contacts(),
     '/basket/': Basket(),
+    '/create-category/': Basket(),
+    '/category-list/': Basket(),
+    '/create-product/': Basket(),
+    '/product-list/': Basket(),
 }
