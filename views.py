@@ -1,10 +1,12 @@
 from hands_framework.templator import render
 from patterns.creational_patterns import Engine
 
+from patterns.structural_patterns import AppRoute, Debug
+
 
 site = Engine()
 
-
+routes = {}
 
 
 # контроллер 404
@@ -12,26 +14,29 @@ class NotFound404:
     def __call__(self, request):
         return '404 WHAT', '404 PAGE Not Found'
     
-
+@AppRoute(routes=routes, url='/')
 class Index:
     def __call__(self, request):
         return '200 OK', render('index.html', date=request.get('date', None), objects_list=site.categories )
 
-
+@AppRoute(routes=routes, url='/about/')
 class About:
     def __call__(self, request):
         return '200 OK', 'about'
-    
+
+@AppRoute(routes=routes, url='/contacts/')
 class Contacts:
     def __call__(self, request):
         return '200 OK', render('contacts.html', data=request.get('date', None), key=request.get('key', None))
-    
+
+@AppRoute(routes=routes, url='/basket/')
 class Basket:
     def __call__(self, request):
         return '200 OK', render('basket.html', data=request.get('date', None), key=request.get('key', None))
 
 
 # контроллер - список продуктов
+@AppRoute(routes=routes, url='/product-list/')
 class ProductsList:
     def __call__(self, request):
         # logger.log('Список курсов')
@@ -46,6 +51,7 @@ class ProductsList:
 
 
 # контроллер - создать продукт
+@AppRoute(routes=routes, url='/create-product/')
 class CreateProduct:
     category_id = -1
 
@@ -82,6 +88,7 @@ class CreateProduct:
 
 
 # контроллер - создать категорию
+@AppRoute(routes=routes, url='/create-category/')
 class CreateCategory:
     def __call__(self, request):
         
@@ -111,6 +118,7 @@ class CreateCategory:
 
 
 # контроллер - список категорий
+@AppRoute(routes=routes, url='/category-list/')
 class CategoryList:
     def __call__(self, request):
         # logger.log('Список категорий')
