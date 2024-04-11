@@ -1,16 +1,19 @@
 from copy import deepcopy
 from quopri import decodestring
-
+from patterns.behavioral_patterns import FileWriter, Subject
 
 
 # абстрактный пользователь
 class User:
-    pass
+    def __init__(self, name):
+        self.name = name
 
 
 # Покупатенль
 class Customer(User):
-    pass
+       def __init__(self, name):
+        self.favoroutes = []
+        super().__init__(name)
 
 
 # Работник
@@ -31,8 +34,8 @@ class UserFactory:
 
     # порождающий паттерн Фабричный метод
     @classmethod
-    def create(cls, type_):
-        return cls.types[type_]()
+    def create(cls, type_, name):
+        return cls.types[type_](name)
 
 
 
@@ -60,12 +63,23 @@ class productPrototype:
         return deepcopy(self)
 
 
-class product(productPrototype):
+class product(productPrototype, Subject):
 
     def __init__(self, name, category):
         self.name = name
         self.category = category
         self.category.products.append(self)
+        self.subscribers = []
+        super().__init__()
+
+    def __getitem__(self, item):
+        return self.subscribers[item]
+
+    def add_customer(self, customer: Customer):
+        self.subscribers.append(customer)
+        customer.favoroutes.append(self)
+        self.notify()
+
 
 
 # интерактивный курс
@@ -116,8 +130,8 @@ class Engine:
         self.categories = []
 
     @staticmethod
-    def create_user(type_):
-        return UserFactory.create(type_)
+    def create_user(type_, name):
+        return UserFactory.create(type_, name)
 
     @staticmethod
     def create_category(name, category=None):
@@ -140,6 +154,11 @@ class Engine:
                 return item
         return None
 
+    def get_customer(self, name) -> Customer:
+        for item in self.customers:
+            if item.name == name:
+                return item
+        
     @staticmethod
     def decode_value(val):
         val_b = bytes(val.replace('%', '=').replace("+", " "), 'UTF-8')

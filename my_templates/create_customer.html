@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}
+Создание пользователя
+{% endblock %}
+{% block style %}
+    {% include "nav_style.html" %}
+{% endblock %}
+{% block menu %}
+    {% include "navigation.html" %}
+{% endblock %}
+{% block body %}
+	<div>
+		<li>
+			<a href="/customer-list/">Список пользователей</a>
+		</li>
+	</div>
+    <div>
+        <h1>Создание пользователя</h1>
+        <form method="post">
+            <input type="text" name="name" placeholder="Имя">
+            <button type="submit" >Сохранить</button>
+        </form>
+    </div>
+{% endblock %}
