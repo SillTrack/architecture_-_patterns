@@ -23,8 +23,8 @@
     {% for item in objects_list %}
     <li>
         {{item.name}}
-        {% for course in item.courses %}
-            {{course.name}}
+        {% for favoroute in item.favoroutes %}
+            {{favoroute.name}}
         {% endfor %}
     </li>
     {% endfor %}

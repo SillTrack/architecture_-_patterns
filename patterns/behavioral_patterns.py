@@ -23,13 +23,14 @@ class Subject:
 class SmsNotifier(Observer):
 
     def update(self, subject):
-        print('SMS->', 'к нам присоединился', subject.students[-1].name)
+# subject = product
+        print('SMS->', 'к нам присоединился', subject.subscribers[-1].name)
 
 
 class EmailNotifier(Observer):
 
     def update(self, subject):
-        print(('EMAIL->', 'к нам присоединился', subject.students[-1].name))
+        print(('EMAIL->', 'к нам присоединился', subject.subscribers[-1].name))
 
 
 class BaseSerializer:
@@ -91,7 +92,7 @@ class CreateView(TemplateView):
         return request['data']
 
     def create_obj(self, data):
-        return render("index.html")
+        return '200 OK'
 
     def __call__(self, request):
         if request['method'] == 'POST':

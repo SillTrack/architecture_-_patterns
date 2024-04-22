@@ -1,14 +1,19 @@
 from hands_framework.templator import render
-from patterns.creational_patterns import Engine
+from patterns.creational_patterns import Engine, MapperRegistry
 
 from patterns.structural_patterns import AppRoute, Debug
 from patterns.behavioral_patterns import EmailNotifier, SmsNotifier, \
     ListView, CreateView, BaseSerializer
 
-email_notifier = EmailNotifier()
-sms_notifier = SmsNotifier()
+from patterns.architectural_system_pattern_unit_of_work import UnitOfWork
 
 site = Engine()
+email_notifier = EmailNotifier()
+sms_notifier = SmsNotifier()
+UnitOfWork.new_current()
+UnitOfWork.get_current().set_mapper_registry(MapperRegistry)
+
+
 
 routes = {}
 
@@ -137,8 +142,11 @@ class CategoryList:
 
 @AppRoute(routes=routes, url='/customer-list/')
 class StudentListView(ListView):
-    queryset = site.customers
     template_name = 'customer_list.html'
+
+    def get_queryset(self):
+        mapper = MapperRegistry.get_current_mapper('customer')
+        return mapper.all()
 
 
 @AppRoute(routes=routes, url='/create-customer/')
@@ -150,7 +158,8 @@ class UserCreateView(CreateView):
         name = site.decode_value(name)
         new_obj = site.create_user('customer', name)
         site.customers.append(new_obj)
-
+        new_obj.mark_new()
+        UnitOfWork.get_current().commit()
 
 @AppRoute(routes=routes, url='/add-favoroutes/')
 class AddStudentByCourseCreateView(CreateView):
@@ -163,11 +172,13 @@ class AddStudentByCourseCreateView(CreateView):
         return context
 
     def create_obj(self, data: dict):
+
+        print(data)
         product_name = data['product_name']
         product_name = site.decode_value(product_name)
         product = site.get_product(product_name)
-        student_name = data['student_name']
-        student_name = site.decode_value(student_name)
-        student = site.get_customer(student_name)
-        product.add_customer(student)
+        customer_name = data['customer_name']
+        customer_name = site.decode_value(customer_name)
+        customer = site.get_customer(customer_name)
+        product.add_customer(customer)
 
